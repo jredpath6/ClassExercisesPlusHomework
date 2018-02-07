@@ -5,8 +5,11 @@
  */
 package edu.elon.bank;
 
-// Adding in some text to PirateChest.java because why not @windows10 imports
-// Some more changes
+/*
+ * @author Jack Redpath
+ * (c) 2018
+ */
+
 /**
  * Class example using a simple PirateChest that holds pieces of gold.
  * 
