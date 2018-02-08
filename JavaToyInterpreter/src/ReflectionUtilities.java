@@ -3,7 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /*
- * Shannon Duvall and <Jack Redpath w/ Garrett Wibbs + Joe Keating>
+ * Shannon Duvall and <Jack Redpath and Garrett Wibbs>
  * This object does basic reflection functions
  */
 
