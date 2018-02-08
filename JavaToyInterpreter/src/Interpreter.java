@@ -1,9 +1,3 @@
-/*
- * Shannon Duvall and <Jack Redpath w/ Garret Wibbs + Joe Keating>
- * A small Java Interpreter
- * Practice using reflection and understanding how Java works.
- */
-
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -51,7 +45,6 @@ public class Interpreter {
 			return callMethod(parse);
 		}
 		else return makeObject(parse);
-		
 	}
 	
 	/*
@@ -71,20 +64,28 @@ public class Interpreter {
 	 * convertNameToInstance("4") returns 4.
 	 * convertNameToInstance(""hey"") returns "hey"
 	 */
-	public Object convertNameToInstance(String name){
-		
-		return null;
+	public Object convertNameToInstance(String name) {
+		Object objName = mySymbolTable.get(name); //Find name in mySymbolTable hashmap
+		if(objName == null) { //Checks if obj is null
+			return objName; //If null, return
+		} else if(name.charAt(0) == '"') {
+			return name.substring(1, name.length()-1); //If name is a String, return name w/ out quotes
+		} else { //Otherwise name = Integer, return the int
+			return Integer.parseInt(name);
+		}
 	}
-	
 	
 	/*TODO: convertNameToInstance.  
 	 * Takes an array of Strings and converts all of them to their associated objects.
 	 * Simply call the other helper method of the same name on each item in the array.
 	 */
 	public Object[] convertNameToInstance(String[] names){
-		return null;
+		Object[] array = new Object[names.length]; //Array of objects w/ size = length of names
+		for(int i = 0; i < names.length; i++) {
+			array[i] = convertNameToInstance(names[i]); //Insert names into object array
+		}
+		return array; //Return the populated array
 	}
-	
 	
 	/* TODO: makeObject
 	 * This method does the "process" job for making objects.
@@ -93,7 +94,12 @@ public class Interpreter {
 	 * The String that is returned should be a basic message telling what happened.
 	 */
 	public String makeObject(ParseResults parse){	
-		return null;
+		String className = parse.className;	//Set class and object names as String
+		String objectName = parse.objectName;
+		Object[] arguments = convertNameToInstance(parse.argumentNames);
+		Object obj = ReflectionUtilities.createInstance(className, arguments);
+		mySymbolTable.put(objectName, obj);
+		return "Created new " + className + " called " + objectName;
 	}
 	
 	/*
@@ -108,7 +114,21 @@ public class Interpreter {
 	 * and replacing it with something else.
 	 */
 	public String callMethod(ParseResults parse){
-		return null;
+		String objectName = parse.objectName; //Use parse to call methods and create strings for object
+		String methodName = parse.methodName; //Method
+		String answerName = parse.answerName; //And answer
+		Object[] argumentsArray = convertNameToInstance(parse.argumentNames); //use convertName() to create an array of argument names
+		Object object = mySymbolTable.get(objectName); //Get objectName from hashmap, this value will be passed to RelectionUtilities.callMethod 
+		Object methodCall = ReflectionUtilities.callMethod(object, methodName, argumentsArray); //Pass values to callMethod() located in the ReflectionUtilites class
+		if(!(methodCall == null)) {  //Check if methodCall is empty
+			if(mySymbolTable.containsKey(answerName)) { //If not empty and the hashmap already contains answer
+				mySymbolTable.put(answerName, methodCall); //Replace the previous object with methodCall
+				return "Value has been changed to " + answerName + ". Result is: " + methodCall + ".";
+			} else { //Otherwise, create a new object
+				mySymbolTable.put(parse.answerName, methodCall);
+				return "Created a new object called " + parse.answerName + ". Result is: " + methodCall + ".";
+			}
+		}
+		return "Method has been called. The result is: " + methodCall + ".";
 	}
-
 }

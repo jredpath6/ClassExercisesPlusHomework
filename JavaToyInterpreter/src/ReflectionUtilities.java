@@ -22,26 +22,28 @@ public class ReflectionUtilities {
 	 * see which has formal parameters to match the actual parameters given.
 	 * When you find one that matches, invoke it.
 	 */
-	public static Object callMethod(Object target, String methodName, Object[] args) {
+	public static Object callMethod (Object target, String methodName, Object[] args) {
 		Class<?> className = target.getClass();
 		Method[] targetMethods = className.getMethods();
-		Method[] matches = null;
-		int count = 0;
-		for(int i = 0; i < targetMethods.length; i++) {
-			if(targetMethods[i].toString().equalsIgnoreCase(methodName)) {
-				matches[count] = targetMethods[i];
-				count++;
-				try {
-					return targetMethods[i].invoke(args);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		for(int i=0;i<targetMethods.length;i++){
+			if (targetMethods[i].getName().equals(methodName)){
+				Class[] myParams = targetMethods[i].getParameterTypes();
+				if(typesMatch(myParams, args)){
+					try {
+						return targetMethods[i].invoke(target, args);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Illegal Access Exception");
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Illegal Argument Exception");
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Invocation Target Exception");
+						e.printStackTrace();
+					}
 				}
 			}
 		}
