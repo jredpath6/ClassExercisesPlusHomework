@@ -1,5 +1,5 @@
 /*
- * Shannon Duvall and <Put your name here.>
+ * Shannon Duvall and <Jack Redpath w/ Garret Wibbs + Joe Keating>
  * A small Java Interpreter
  * Practice using reflection and understanding how Java works.
  */
@@ -72,6 +72,7 @@ public class Interpreter {
 	 * convertNameToInstance(""hey"") returns "hey"
 	 */
 	public Object convertNameToInstance(String name){
+		
 		return null;
 	}
 	

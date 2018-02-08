@@ -1,5 +1,6 @@
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /*
  * Shannon Duvall and <Jack Redpath w/ Garrett Wibbs + Joe Keating>
@@ -22,8 +23,28 @@ public class ReflectionUtilities {
 	 * When you find one that matches, invoke it.
 	 */
 	public static Object callMethod(Object target, String methodName, Object[] args) {
-		Class<?> clas = target.getClass();
-
+		Class<?> className = target.getClass();
+		Method[] targetMethods = className.getMethods();
+		Method[] matches = null;
+		int count = 0;
+		for(int i = 0; i < targetMethods.length; i++) {
+			if(targetMethods[i].toString().equalsIgnoreCase(methodName)) {
+				matches[count] = targetMethods[i];
+				count++;
+				try {
+					return targetMethods[i].invoke(args);
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		return null;
 	}
 
@@ -40,28 +61,37 @@ public class ReflectionUtilities {
 	 * constructor parameters match the actual parameters given.
 	 */
 	public static Object createInstance(String name, Object[] args) {
-		Class<?> className = name.getClass();
-		Constructor<?>[] array = className.getConstructors();
-		for (int i = 0; i < array.length; i++) {
-			Class<?>[] classArray = array[i].getParameterTypes();
-			if (typesMatch(classArray, args)) {
-				try {
-					return array[i].newInstance(args);
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		
+		try {
+			Class<?> className = Class.forName(name);
+			
+			Constructor[] array = className.getConstructors();
+			
+			for (int i=0; i<array.length;i++){
+				Class[] classArray = array[i].getParameterTypes();
+				if(typesMatch(classArray,args)){
+					try {
+						return array[i].newInstance(args);
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
