@@ -94,9 +94,9 @@ public class Interpreter {
 	 * The String that is returned should be a basic message telling what happened.
 	 */
 	public String makeObject(ParseResults parse){	
+		Object[] arguments = convertNameToInstance(parse.argumentNames);
 		String className = parse.className;	//Set class and object names as String
 		String objectName = parse.objectName;
-		Object[] arguments = convertNameToInstance(parse.argumentNames);
 		Object obj = ReflectionUtilities.createInstance(className, arguments);
 		mySymbolTable.put(objectName, obj);
 		return "Created new " + className + " called " + objectName;
