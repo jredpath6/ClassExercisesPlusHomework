@@ -3,6 +3,7 @@ package headfirst.decorator.io;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,15 +50,17 @@ class LowerCaseInputStreamTest {
 
 	@Test
 	void testReadByteArrayIntInt() {
-			ByteArrayOutputStream array = new ByteArrayOutputStream();
+			ByteArrayOutputStream outArray = new ByteArrayOutputStream();
+			byte[] byteArray = new byte[3];
 			try {
-				LowerCaseInputStream in =
-				          new LowerCaseInputStream(new BufferedInputStream(new FileInputStream("elon462.txt")));
-				int a = in.read(array.toByteArray(), 3, array.size());
-				while (a > 0) {
-					array.write((char) a);				
+				FileInputStream file = new FileInputStream("elon462.txt");
+				InputStream in = new LowerCaseInputStream(new BufferedInputStream(file));
+
+				int a = in.read(byteArray, 0, 2);
+				while ((a = in.read(byteArray, 0, 2)) >= 0) {
+					outArray.write(a);				
 				}
-				String actual = array.toString();
+				String actual = outArray.toString();
 				String expected = "ebruary 22 is the eighth class on design patterns. we are \r\n" + 
 						"25% done with the course.\r\n" + 
 						"\r\n" + 
