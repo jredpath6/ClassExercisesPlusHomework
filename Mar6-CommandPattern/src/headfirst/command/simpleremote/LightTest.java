@@ -31,7 +31,6 @@ class LightTest {
 	 */
 	@Test
 	void testOff() {
-
 		ByteOutputStream stream = new ByteOutputStream();
 		PrintStream a = new PrintStream(stream);
 		System.setOut(a);
