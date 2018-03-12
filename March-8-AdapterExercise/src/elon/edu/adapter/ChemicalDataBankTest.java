@@ -6,10 +6,7 @@
  */
 package elon.edu.adapter;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,41 +19,42 @@ import org.junit.jupiter.api.Test;
 class ChemicalDataBankTest {
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for {@link elon.edu.adapter.ChemicalDataBank#getCriticalPoint(java.lang.String, java.lang.String)}.
+	 * Test method for
+	 * {@link elon.edu.adapter.ChemicalDataBank#getCriticalPoint(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	void testGetCriticalPoint() {
-		fail("Not yet implemented");
+		String compound = "w";
+		String point = "M";
+		ChemicalDataBank data = new ChemicalDataBank();
+		float actual = data.getCriticalPoint(compound, point);
+		float expected = 0.0f;
+		Assertions.assertEquals(expected, actual);
 	}
 
 	/**
-	 * Test method for {@link elon.edu.adapter.ChemicalDataBank#getMolecularStructure(java.lang.String)}.
+	 * Test method for
+	 * {@link elon.edu.adapter.ChemicalDataBank#getMolecularStructure(java.lang.String)}.
 	 */
 	@Test
 	void testGetMolecularStructure() {
-		fail("Not yet implemented");
+		String compoundName = "benzene";
+		ChemicalDataBank data = new ChemicalDataBank();
+		String actual = data.getMolecularStructure(compoundName);
+		String expected = "C6H6";
+		Assertions.assertEquals(expected, actual);
 	}
 
 	/**
-	 * Test method for {@link elon.edu.adapter.ChemicalDataBank#getMolecularWeight(java.lang.String)}.
+	 * Test method for
+	 * {@link elon.edu.adapter.ChemicalDataBank#getMolecularWeight(java.lang.String)}.
 	 */
 	@Test
 	void testGetMolecularWeight() {
-		fail("Not yet implemented");
+		String compound = "alcohol";
+		ChemicalDataBank data = new ChemicalDataBank();
+		double actual = data.getMolecularWeight(compound);
+		double expected = 46.0688;
+		Assertions.assertEquals(expected, actual);
 	}
-
 }
