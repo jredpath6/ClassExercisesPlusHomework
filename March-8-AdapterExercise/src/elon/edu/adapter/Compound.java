@@ -8,7 +8,6 @@ package elon.edu.adapter;
 public class Compound implements ChemicalCompound {
 
 	private String compound;
-	private String point;
 	private ChemicalDataBank data = new ChemicalDataBank();
 
 	public Compound(String aCompound) {
